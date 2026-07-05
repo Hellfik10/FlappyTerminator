@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PointCollector : MonoBehaviour
 {
-    [SerializeField] private EnemySpawner spawner;
+    [SerializeField] private EnemySpawner _spawner;
 
     public event Action<float> ValueChanged;
 
@@ -13,12 +13,12 @@ public class PointCollector : MonoBehaviour
 
     private void OnEnable()
     {
-        spawner.EnemyReleased += IncreaseCounter;
+        _spawner.EnemyReleased += IncreaseCounter;
     }
 
     private void OnDisable()
     {
-        spawner.EnemyReleased -= IncreaseCounter;
+        _spawner.EnemyReleased -= IncreaseCounter;
     }
 
     private void IncreaseCounter()

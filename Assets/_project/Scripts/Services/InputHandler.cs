@@ -31,14 +31,6 @@ public class InputHandler : MonoBehaviour
         _inputSystem.UI.Pause.performed += OnPause;
     }
 
-    private void Update()
-    {
-    }
-
-    private void FixedUpdate()
-    {
-    }
-
     private void OnDestroy()
     {
         _inputSystem.Player.Jump.started -= OnJump;

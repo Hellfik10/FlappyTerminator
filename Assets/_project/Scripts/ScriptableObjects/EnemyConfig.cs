@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Enemy Info", menuName = "EnemyInfo", order = 51)]
-public class EnemyInfo : ScriptableObject
+[CreateAssetMenu(fileName = "New Enemy Info", menuName = nameof(EnemyConfig), order = 51)]
+public class EnemyConfig : ScriptableObject
 {
     [SerializeField] private Sprite _image;
     [SerializeField] private float _attackRate;

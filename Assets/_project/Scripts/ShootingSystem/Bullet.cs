@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent (typeof(BulletMover), typeof(BulletCollisionDetector))]
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private BulletInfo _bulletInfo;
+    [SerializeField] private BulletConfig _bulletInfo;
 
     private BulletMover _bulletMover;
     private Coroutine _coroutine;
