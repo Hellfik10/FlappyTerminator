@@ -2312,7 +2312,7 @@ GameObject:
   - component: {fileID: 1642311620}
   - component: {fileID: 1642311621}
   m_Layer: 0
-  m_Name: GameStatesHandler
+  m_Name: GameStatesFactory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2347,7 +2347,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7984e128021e8e46a9530b4f6b6c896, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameStatesHandler
+  m_EditorClassIdentifier: Assembly-CSharp::GameStatesFactory
   _player: {fileID: 371431243}
   _inputHandler: {fileID: 371431251}
   _pointCollector: {fileID: 356203487}
@@ -2807,7 +2807,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2067879457
 MonoBehaviour:
   m_ObjectHideFlags: 0

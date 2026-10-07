@@ -10,12 +10,16 @@ public class ButtonClickHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        _button.onClick.AddListener(ClickButton); 
+        _button.onClick.AddListener(ClickButton);
+    }
+
+    private void OnDisable()
+    {
+        _button.onClick.RemoveListener(ClickButton);
     }
 
     private void ClickButton()
     {
         ButtonClicked?.Invoke();
     }
-
 }

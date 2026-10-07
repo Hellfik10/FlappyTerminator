@@ -14,7 +14,7 @@ public class BulletMover : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         _rigidbody.linearVelocity = new Vector3(_direction,0) * _speed;
     }

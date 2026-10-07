@@ -17,7 +17,7 @@ public class MainMenuState : State
     public override void Enter()
     {
         _inputHandler.EnablePause();
-        Time.timeScale = MinTimeScaleValue;
+        Time.timeScale = GameTimeScale.Paused;
         _playGameButton.ButtonClicked += StartGame;
         _mainMenuCanvas.gameObject.SetActive(true);
     }
@@ -25,7 +25,7 @@ public class MainMenuState : State
     public override void Exit()
     {
         _playGameButton.ButtonClicked -= StartGame;
-        Time.timeScale = MaxTimeScaleValue;
+        Time.timeScale = GameTimeScale.Normal;
         _mainMenuCanvas.gameObject.SetActive(false);
         _inputHandler.DisablePause();
     }

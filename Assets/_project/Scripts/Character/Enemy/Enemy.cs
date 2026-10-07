@@ -9,11 +9,6 @@ public class Enemy : Character
 
     private Coroutine _coroutine;
 
-    public override void Awake()
-    {
-        base.Awake();
-    }
-
     public override void OnEnable()
     {
         base.OnEnable();

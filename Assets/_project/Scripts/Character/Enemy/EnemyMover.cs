@@ -12,7 +12,7 @@ public class EnemyMover : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         _rigidbody.linearVelocity = Vector2.left * _moveSpeed;
     }

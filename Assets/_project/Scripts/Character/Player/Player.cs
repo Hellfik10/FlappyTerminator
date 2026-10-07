@@ -19,16 +19,6 @@ public class Player : Character
         _inputService.Attacked += OnAttack;
     }
 
-    public override void OnEnable()
-    {
-        base.OnEnable();
-    }
-
-    public override void OnDisable()
-    {
-        base.OnDisable();
-    }
-
     private void OnDestroy()
     {
         _inputService.Jumped -= OnJump;

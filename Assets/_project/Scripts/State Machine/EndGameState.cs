@@ -23,7 +23,7 @@ public class EndGameState : State
         _scoreTextArea.text = _pointCollector.Count.ToString();
         _inputHandler.EnablePause();
         _endGameCanvas.gameObject.SetActive(true);
-        Time.timeScale = MinTimeScaleValue;
+        Time.timeScale = GameTimeScale.Paused;
         _restartGameButton.ButtonClicked += StartNewGame;
     }
 
@@ -36,6 +36,6 @@ public class EndGameState : State
 
     private void StartNewGame()
     {
-        StateMachine.SetState<NewGameState>();
+        StateMachine.SetState<SceneLoadingState>();
     }
 }

@@ -12,6 +12,7 @@ public class Jumper : MonoBehaviour
     private Quaternion _minRotation;
     private Quaternion _maxRotation;
     private Rigidbody2D _rigidbody;
+    private bool _jumpRequested;
 
     private void Awake()
     {
@@ -24,6 +25,15 @@ public class Jumper : MonoBehaviour
         _maxRotation = Quaternion.Euler(0, 0, _maxRotationZ);
     }
 
+    private void FixedUpdate()
+    {
+        if (_jumpRequested)
+        {
+            _rigidbody.linearVelocity = Vector2.up * _tapForce;
+            _jumpRequested = false;
+        }
+    }
+
     private void Update()
     {
         transform.rotation = Quaternion.Lerp(transform.rotation, _minRotation, _rotationSpeed * Time.deltaTime);
@@ -31,7 +41,7 @@ public class Jumper : MonoBehaviour
 
     public void Jump()
     {
-        _rigidbody.linearVelocity = Vector2.up * _tapForce;
+        _jumpRequested = true;
         transform.rotation = _maxRotation;
     }
 }

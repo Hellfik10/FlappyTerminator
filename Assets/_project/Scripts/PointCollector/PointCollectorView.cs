@@ -6,11 +6,11 @@ public class PointCollectorView : MonoBehaviour
     [SerializeField] private PointCollector _pointCollector;
     [SerializeField] private TMP_Text _text;
 
-    private float startPointsValue = 0;
+    private float _startPointsValue = 0;
 
     private void OnEnable()
     {
-        _text.text = startPointsValue.ToString();
+        _text.text = _startPointsValue.ToString();
         _pointCollector.ValueChanged += ChangeValue;
     }
 

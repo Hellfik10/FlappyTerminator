@@ -1,7 +1,6 @@
 using UnityEngine;
-using UnityEngine.Pool;
 
-public class BulletSpawner : MonoBehaviour
+public class BulletSpawner : ObjectSpawner<Bullet>
 {
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private Bullet _prefab;
@@ -10,28 +9,22 @@ public class BulletSpawner : MonoBehaviour
     [SerializeField] private float _rotationZ;
 
     private Quaternion _rotation;
-    private ObjectPool<Bullet> _pool;
-    private int _poolMaxSize = 100;
 
-    public virtual void Awake()
+    protected override int PoolCapacity => _poolCapacity;
+    protected override int PoolMaxSize => 100;
+
+    protected override void Awake()
     {
         _rotation = Quaternion.Euler(0, 0, _rotationZ);
-
-        _pool = new ObjectPool<Bullet>(
-            createFunc: () => CreateObject(),
-            actionOnGet: (bullet) => Initialize(bullet),
-            actionOnRelease: (bullet) => bullet.gameObject.SetActive(false),
-            defaultCapacity: _poolCapacity,
-            actionOnDestroy: (bullet) => DestroyObject(bullet),
-            maxSize: _poolMaxSize);
+        base.Awake();
     }
 
     public void EnableBullet()
     {
-        _pool.Get();
+        SpawnObject();
     }
 
-    public virtual void Initialize(Bullet bullet)
+    protected override void Initialize(Bullet bullet)
     {
         bullet.transform.position = _spawnPoint.position;
         bullet.transform.rotation = _rotation;
@@ -39,12 +32,12 @@ public class BulletSpawner : MonoBehaviour
         bullet.gameObject.SetActive(true);
     }
 
-    public virtual void ReleasedObject(Bullet bullet)
+    private void ReleasedObject(Bullet bullet)
     {
-        _pool.Release(bullet);
+        ReleaseObject(bullet);
     }
 
-    private Bullet CreateObject()
+    protected override Bullet CreateObject()
     {
         Bullet bullet = Instantiate(_prefab, _spawnPoint.position, _rotation);
         bullet.EndedLifeTime += ReleasedObject;
@@ -52,9 +45,14 @@ public class BulletSpawner : MonoBehaviour
         return bullet;
     }
 
-    private void DestroyObject(Bullet bullet)
+    protected override void DestroyObject(Bullet bullet)
     {
         bullet.EndedLifeTime -= ReleasedObject;
         Destroy(bullet.gameObject);
+    }
+
+    protected override void OnReleased(Bullet bullet)
+    {
+        bullet.gameObject.SetActive(false);
     }
 }

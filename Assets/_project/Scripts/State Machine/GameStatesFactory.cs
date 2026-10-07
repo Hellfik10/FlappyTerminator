@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class GameStatesHandler : MonoBehaviour
+public class GameStatesFactory : MonoBehaviour
 {
     [SerializeField] private Character _player;
     [SerializeField] private InputHandler _inputHandler;
@@ -22,16 +22,12 @@ public class GameStatesHandler : MonoBehaviour
 
     private void Awake()
     {
-        _mainMenu.gameObject.SetActive(false);
-        _pauseMenu.gameObject.SetActive(false);
-        _gameOverMenu.gameObject.SetActive(false);
-        _pointCollectorView.gameObject.SetActive(false);
         _stateMachine = new StateMachine();
         _stateMachine.AddState(new MainMenuState(_stateMachine, _mainMenu, _playGameButton, _inputHandler));
         _stateMachine.AddState(new GameState(_stateMachine, _inputHandler, _player, _pointCollectorView));
         _stateMachine.AddState(new PauseState(_stateMachine, _inputHandler, _pauseMenu, _continueGameButton));
         _stateMachine.AddState(new EndGameState(_stateMachine, _gameOverMenu, _restartButton, _inputHandler, _pointCollector, _scoreTextArea));
-        _stateMachine.AddState(new NewGameState(_stateMachine));
+        _stateMachine.AddState(new SceneLoadingState(_stateMachine));
         _stateMachine.SetState<MainMenuState>();
     }
 }

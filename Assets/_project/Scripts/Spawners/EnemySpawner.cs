@@ -1,9 +1,8 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Pool;
 
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawner : ObjectSpawner<Character>
 {
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private float _minSpawnPointY;
@@ -13,21 +12,11 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Character _prefab;
 
     private Quaternion _rotation = Quaternion.Euler(0, 0, 0);
-    private ObjectPool<Character> _pool;
-    private int _poolMaxSize = 15;
 
     public event Action EnemyReleased;
 
-    public virtual void Awake()
-    {
-        _pool = new ObjectPool<Character>(
-            createFunc: () => CreateObject(),
-            actionOnGet: (enemy) => Initialize(enemy),
-            actionOnRelease: (enemy) => enemy.gameObject.SetActive(false),
-            defaultCapacity: _poolCapacity,
-            actionOnDestroy: (enemy) => DestroyObject(enemy),
-            maxSize: _poolMaxSize);
-    }
+    protected override int PoolCapacity => _poolCapacity;
+    protected override int PoolMaxSize => 15;
 
     private void Start()
     {
@@ -42,23 +31,23 @@ public class EnemySpawner : MonoBehaviour
 
             yield return wait;
 
-            _pool.Get();
+            SpawnObject();
         }
     }
 
-    public virtual void Initialize(Character enemy)
+    protected override void Initialize(Character enemy)
     {
         enemy.transform.position = GetRandomSpawnPoint();
         enemy.gameObject.SetActive(true);
     }
 
-    public virtual void ReleasedObject(Character enemy)
+    private void ReleasedObject(Character enemy)
     {
         EnemyReleased?.Invoke();
-        _pool.Release(enemy);
+        ReleaseObject(enemy);
     }
 
-    private Character CreateObject()
+    protected override Character CreateObject()
     {
         Character enemy = Instantiate(_prefab, GetRandomSpawnPoint(), _rotation);
         enemy.Destroyed += ReleasedObject;
@@ -66,10 +55,15 @@ public class EnemySpawner : MonoBehaviour
         return enemy;
     }
 
-    private void DestroyObject(Character enemy)
+    protected override void DestroyObject(Character enemy)
     {
         enemy.Destroyed -= ReleasedObject;
         Destroy(enemy.gameObject);
+    }
+
+    protected override void OnReleased(Character enemy)
+    {
+        enemy.gameObject.SetActive(false);
     }
 
     private Vector2 GetRandomSpawnPoint()

@@ -17,7 +17,7 @@ public class PauseState : State
     {
         _inputHandler.EnablePause();
         _pauseCanvas.gameObject.SetActive(true);
-        Time.timeScale = MinTimeScaleValue;
+        Time.timeScale = GameTimeScale.Paused;
         _inputHandler.Paused += ContinueGame;
         _continueGameButton.ButtonClicked += ContinueGame;
     }
@@ -25,7 +25,7 @@ public class PauseState : State
     public override void Exit()
     {
         _pauseCanvas.gameObject.SetActive(false);
-        Time.timeScale = MaxTimeScaleValue;
+        Time.timeScale = GameTimeScale.Normal;
         _inputHandler.Paused -= ContinueGame;
         _inputHandler.DisablePause();
         _continueGameButton.ButtonClicked -= ContinueGame;
